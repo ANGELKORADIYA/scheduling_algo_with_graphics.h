@@ -264,7 +264,7 @@ void sjf(int total, int *P, int *AT, int *BT, int *FT)
         // {
         //     printf("%d\n", tempO[i]);
         // }
-        
+
         // for (int i = 0; i < total; i++)
         // {
         //     printf("%12d | %12d | %12d | %12d \n", P[i], AT[i], BT[i], FT[i]);
@@ -288,7 +288,6 @@ void sjf(int total, int *P, int *AT, int *BT, int *FT)
         strcat(output2, output);
         outtextxy(((((time)*timeMagnifire) + 50) + timeprevious) / 2, (y1 + y2) / 2, output2);
         timeprevious = (time * timeMagnifire) + 50;
-        
     }
     int x2 = (time)*timeMagnifire + 50;
     line(x1, y1, x2, y1);
@@ -296,7 +295,6 @@ void sjf(int total, int *P, int *AT, int *BT, int *FT)
     line(50, y1, 50, y2);
     char output[] = "0";
     outtextxy(50, y2 + 10, output);
-    
 }
 void srtn(int total, int *P, int *AT, int *BT, int *FT)
 {
@@ -385,13 +383,13 @@ void srtn(int total, int *P, int *AT, int *BT, int *FT)
             tempB = BT[tempO[0]];
         }
 
-     
         if (tempO[0] == -1)
         {
             break;
         }
-           if (time < temp){
-            time = temp; //no idea
+        if (time < temp)
+        {
+            time = temp; // no idea
         }
         time++;
         BTtemp[tempP]--;
@@ -415,6 +413,310 @@ void srtn(int total, int *P, int *AT, int *BT, int *FT)
         timeprevious = (time * timeMagnifire) + 50;
         // }
         // atempP=tempP;
+    }
+    int x2 = (time)*timeMagnifire + 50;
+    line(x1, y1, x2, y1);
+    line(x1, y2, x2, y2);
+    line(50, y1, 50, y2);
+    char output[] = "0";
+    outtextxy(50, y2 + 10, output);
+}
+void PRIOPMT(int total, int *P, int *AT, int *BT, int *FT, int *PRIO)
+{
+    int BTtemp[total];
+    for (int i = 0; i < total; i++)
+    {
+        BTtemp[i] = BT[i];
+    }
+
+    int time = 0, temp, tempB, tempP;
+
+    int gd = DETECT, gm;
+    int timeMagnifire = 1;
+    initgraph(&gd, &gm, NULL);
+    int y1 = 100, y2 = 200;
+    int x1 = 50;
+    int timeprevious = x1;
+    int abt = 0;
+    // int atempP=-1;
+    for (int i = 0; i < total; i++)
+    {
+        abt += BT[i];
+    }
+    if (abt <= total * 20)
+    {
+        timeMagnifire = 30;
+    }
+
+    while (1)
+    {
+        int tempO[total];
+        for (int i = 0; i < total; i++)
+        {
+            tempO[i] = -1;
+        }
+        int count = 0;
+
+        for (int i = 0; i < total; i++)
+        {
+            if (FT[i] == 0)
+            {
+                temp = AT[i];
+                tempP = i;
+                tempB = BT[i];
+                break;
+            }
+        }
+        for (int i = 0; i < total; i++)
+        {
+            if (time >= AT[i] && FT[i] == 0)
+            {
+                tempO[count] = i;
+                count++;
+            }
+            else if (temp >= AT[i] && FT[i] == 0)
+            {
+                tempO[count] = i;
+                count++;
+            }
+        }
+        // for (int i = 0; i < total; i++)
+        // {
+        //     printf("%d\n", tempO[i]);
+        // }
+        int x, xB;
+        if (tempO[1] != -1)
+        {
+            x = tempO[0];
+            xB = PRIO[tempO[0]];
+            for (int i = 0; i < count; i++)
+            {
+                if (xB >= PRIO[tempO[i]])
+                {
+                    temp = AT[tempO[i]];
+                    tempP = tempO[i];
+                    tempB = PRIO[tempO[i]];
+                    int xp = x, xBp = xB;
+                    x = tempO[i];
+                    xB = PRIO[tempO[i]];
+                    if (xBp == xB)
+                    {
+                        if (BT[xp] < BT[x])
+                        {
+                            x = xp;
+                            xB = xBp;
+                            temp = AT[x];
+                            tempP = x;
+                            tempB = PRIO[x];
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            temp = AT[tempO[0]];
+            tempP = tempO[0];
+            tempB = BT[tempO[0]];
+        }
+
+        if (tempO[0] == -1)
+        {
+            break;
+        }
+        if (time < temp)
+        {
+            time = temp; // no idea
+        }
+        time++;
+        BTtemp[tempP]--;
+        if (BTtemp[tempP] == 0)
+        {
+            FT[tempP] = time;
+        }
+        // for(int i = 0; i < total; i++)
+        // {
+        //     printf("%12d | %12d | %12d | %12d \n", P[i], AT[i], BT[i], FT[i]);
+        // }
+        // if(atempP!=tempP||atempP==-1){
+        line((time)*timeMagnifire + 50, y1, (time)*timeMagnifire + 50, y2);
+        char output[50];
+        sprintf(output, "%d", time);
+        outtextxy((time)*timeMagnifire + 50, y2 + 10, output);
+        sprintf(output, "%d", P[tempP]);
+        char output2[50] = "P";
+        strcat(output2, output);
+        outtextxy(((((time)*timeMagnifire) + 50) + timeprevious) / 2, (y1 + y2) / 2, output2);
+        timeprevious = (time * timeMagnifire) + 50;
+        // }
+        // atempP=tempP;
+    }
+    int x2 = (time)*timeMagnifire + 50;
+    line(x1, y1, x2, y1);
+    line(x1, y2, x2, y2);
+    line(50, y1, 50, y2);
+    char output[] = "0";
+    outtextxy(50, y2 + 10, output);
+}
+void RR(int total, int *P, int *AT, int *BT, int *FT, int quantum)
+{
+    int gd = DETECT, gm;
+    int timeMagnifire = 20;
+    initgraph(&gd, &gm, NULL);
+    int y1 = 100, y2 = 200;
+    int x1 = 50;
+    int timeprevious = x1;
+    int abt = 0;
+    int xcount = -1;
+    int time = 0, ij = 0;
+    int BTtemp[total];
+    // int xtempO[total];
+
+    for (int i = 0; i < total; i++)
+    {
+        // xtempO[total]=-1;
+        BTtemp[i] = BT[i];
+    }
+    while (1)
+    {
+        int temp, tempP, tempB;
+        int tempO[total];
+        for (int i = 0; i < total; i++)
+        {
+            tempO[i] = -1;
+        }
+        int count = 0;
+
+        for (int i = 0; i < total; i++)
+        {
+            if (FT[i] == 0)
+            {
+                temp = AT[i];
+                tempP = i;
+                tempB = BT[i];
+                break;
+            }
+        }
+        for (int i = 0; i < total; i++)
+        {
+            if (time >= AT[i])
+            {
+                tempO[count] = i;
+                count++;
+            }
+            else if (temp >= AT[i])
+            {
+                tempO[count] = i;
+                count++;
+            }
+        }
+        int count3 = 0;
+        for (int i = 0; i < total; i++)
+        {
+            if (FT[i] != 0)
+            {
+                count3++;
+            }
+        }
+
+        if (count3 == total)
+        {
+            break;
+        }
+        if (time < temp)
+        {
+            time = temp;
+        }
+
+        // int count2 = 0;
+        // for (int i = 0; i < total; i++)
+        // {
+        //     if (xtempO[i] = tempO[i])
+        //     {
+        //         count2++;
+        //     }
+        // }
+        // if (count2 == total)
+        // {
+        //     ij++;
+        //     if (ij == count)
+        //     {
+        //         ij = 0;
+        //     }
+        // }
+        // else
+        // {
+        //     ij = 0;
+        // }
+
+        printf("ij %d", ij);
+        if (ij >= total || tempO[ij] == -1)
+        {
+            ij = 0;
+        }
+        // if(count!=xcount && xcount!=-1){
+        //     ij--;
+        // }
+        // xcount=count;
+        for (int i = 0; i < total; i++)
+        {
+            if (FT[ij] == 0)
+            {
+                break;
+            }
+            else
+            {
+                ij++;
+                if (ij >= total || tempO[ij] == -1)
+                {
+                    ij = 0;
+                }
+            }
+        }
+
+        temp = AT[tempO[ij]];
+        tempP = tempO[ij];
+        tempB = BT[tempO[ij]];
+        ij++;
+        // for (int i = 0; i < total; i++)
+        // {
+        //     xtempO[i] = tempO[i];
+        // }
+
+        if (BTtemp[tempP] < quantum)
+        {
+            time = time + BTtemp[tempP];
+            BTtemp[tempP] = 0;
+        }
+        else
+        {
+            BTtemp[tempP] = BTtemp[tempP] - quantum;
+            time = time + quantum;
+        }
+        if (BTtemp[tempP] == 0)
+        {
+            FT[tempP] = time;
+        }
+
+        for (int i = 0; i < total; i++)
+        {
+            printf("%d\n", tempO[i]);
+        }
+
+        for (int i = 0; i < total; i++)
+        {
+            printf("%12d | %12d | %12d | %12d \n", P[i], AT[i], BTtemp[i], FT[i]);
+        }
+
+        line((time)*timeMagnifire + 50, y1, (time)*timeMagnifire + 50, y2);
+        char output[50];
+        sprintf(output, "%d", time);
+        outtextxy((time)*timeMagnifire + 50, y2 + 10, output);
+        sprintf(output, "%d", P[tempP]);
+        char output2[50] = "P";
+        strcat(output2, output);
+        outtextxy(((((time)*timeMagnifire) + 50) + timeprevious) / 2, (y1 + y2) / 2, output2);
+        timeprevious = (time * timeMagnifire) + 50;
     }
     int x2 = (time)*timeMagnifire + 50;
     line(x1, y1, x2, y1);
@@ -513,7 +815,67 @@ int main()
         PRIONON(total, P, AT, BT, FT, PRIO);
 
         break;
+    case 5:
+        for (int i = 0; i < total; i++)
+        {
+            printf("Enter %d's Priority :- ", i + 1);
+            scanf("%d", &PRIO[i]);
+        }
+        PRIOPMT(total, P, AT, BT, FT, PRIO);
+
+        break;
+    case 6:
+        int quantum;
+        printf("Enter Time Quantum :- ");
+        scanf("%d", &quantum);
+
+        RR(total, P, AT, BT, FT, quantum);
+
+        break;
     default:
+        // for (int i = 0; i < total; i++)
+        // {
+        //     printf("Enter %d's Priority :- ", i + 1);
+        //     scanf("%d", &PRIO[i]);
+        // }
+        // printf("Enter Time Quantum :- ");
+        // scanf("%d", &quantum);
+
+        // printf("\n\nFCFS::");
+        // fcfs(total, P, AT, BT, FT);
+        // printt(total, P, AT, BT, FT, TAT, WA, &ATAT, &AWA);
+        // getch();
+        // closegraph();
+
+        // printf("\n\nSJF::");
+        // sjf(total, P, AT, BT, FT);
+        // printt(total, P, AT, BT, FT, TAT, WA, &ATAT, &AWA);
+        // getch();
+        // closegraph();
+
+        // printf("\n\nSRTN::");
+        // srtn(total, P, AT, BT, FT);
+        // printt(total, P, AT, BT, FT, TAT, WA, &ATAT, &AWA);
+        // getch();
+        // closegraph();
+
+        // printf("\n\nPRIORITY NONPREEMITIVE::");
+        // PRIONON(total, P, AT, BT, FT, PRIO);
+        // printtt(total, P, AT, BT, FT, TAT, WA, &ATAT, &AWA, PRIO);
+        // getch();
+        // closegraph();
+
+        // printf("\n\nPRIORITY PREEMITIVE::");
+        // PRIOPMT(total, P, AT, BT, FT, PRIO);
+        // printtt(total, P, AT, BT, FT, TAT, WA, &ATAT, &AWA, PRIO);
+        // getch();
+        // closegraph();
+
+        // printf("\n\nROUND ROBIN::");
+        // RR(total, P, AT, BT, FT, quantum);
+        // printt(total, P, AT, BT, FT, TAT, WA, &ATAT, &AWA);
+        // getch();
+        // closegraph();
         break;
     }
 
