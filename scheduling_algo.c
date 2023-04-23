@@ -44,6 +44,11 @@ void fcfs(int total, int *P, int *AT, int *BT, int *FT)
         if (time < temp)
         {
             time = temp;
+            line((time)*timeMagnifire + 50, y1, (time)*timeMagnifire + 50, y2);
+            char output[50];
+            sprintf(output, "%d", time);
+            outtextxy((time)*timeMagnifire + 50, y2 + 10, output);
+            timeprevious = (time)*timeMagnifire + 50;
         }
         time += BT[tempP];
         FT[tempP] = time;
@@ -160,6 +165,11 @@ void PRIONON(int total, int *P, int *AT, int *BT, int *FT, int *PRIO)
         if (time < temp)
         {
             time = temp;
+            line((time)*timeMagnifire + 50, y1, (time)*timeMagnifire + 50, y2);
+            char output[50];
+            sprintf(output, "%d", time);
+            outtextxy((time)*timeMagnifire + 50, y2 + 10, output);
+            timeprevious = (time)*timeMagnifire + 50;
         }
         time += BT[tempP];
         FT[tempP] = time;
@@ -276,6 +286,11 @@ void sjf(int total, int *P, int *AT, int *BT, int *FT)
         if (time < temp)
         {
             time = temp;
+            line((time)*timeMagnifire + 50, y1, (time)*timeMagnifire + 50, y2);
+            char output[50];
+            sprintf(output, "%d", time);
+            outtextxy((time)*timeMagnifire + 50, y2 + 10, output);
+            timeprevious = (time)*timeMagnifire + 50;
         }
         time += BT[tempP];
         FT[tempP] = time;
@@ -363,17 +378,17 @@ void srtn(int total, int *P, int *AT, int *BT, int *FT)
         if (tempO[1] != -1)
         {
             x = tempO[0];
-            xB = BT[tempO[0]];
+            xB = BTtemp[tempO[0]];
             for (int i = 0; i < count; i++)
             {
-                if (xB > BT[tempO[i]])
+                if (xB > BTtemp[tempO[i]])
                 {
-                    temp = AT[tempO[i]];
-                    tempP = tempO[i];
-                    tempB = BT[tempO[i]];
                     x = tempO[i];
-                    xB = BT[tempO[i]];
+                    xB = BTtemp[tempO[i]];
                 }
+                temp = AT[x];
+                tempP = x;
+                tempB = BT[x];
             }
         }
         else
@@ -389,7 +404,12 @@ void srtn(int total, int *P, int *AT, int *BT, int *FT)
         }
         if (time < temp)
         {
-            time = temp; // no idea
+            time = temp;
+            line((time)*timeMagnifire + 50, y1, (time)*timeMagnifire + 50, y2);
+            char output[50];
+            sprintf(output, "%d", time);
+            outtextxy((time)*timeMagnifire + 50, y2 + 10, output);
+            timeprevious = (time)*timeMagnifire + 50;
         }
         time++;
         BTtemp[tempP]--;
@@ -397,7 +417,7 @@ void srtn(int total, int *P, int *AT, int *BT, int *FT)
         {
             FT[tempP] = time;
         }
-        // for(int i = 0; i < total; i++)
+        // for (int i = 0; i < total; i++)
         // {
         //     printf("%12d | %12d | %12d | %12d \n", P[i], AT[i], BT[i], FT[i]);
         // }
@@ -526,7 +546,12 @@ void PRIOPMT(int total, int *P, int *AT, int *BT, int *FT, int *PRIO)
         }
         if (time < temp)
         {
-            time = temp; // no idea
+            time = temp;
+            line((time)*timeMagnifire + 50, y1, (time)*timeMagnifire + 50, y2);
+            char output[50];
+            sprintf(output, "%d", time);
+            outtextxy((time)*timeMagnifire + 50, y2 + 10, output);
+            timeprevious = (time)*timeMagnifire + 50;
         }
         time++;
         BTtemp[tempP]--;
@@ -626,6 +651,11 @@ void RR(int total, int *P, int *AT, int *BT, int *FT, int quantum)
         if (time < temp)
         {
             time = temp;
+            line((time)*timeMagnifire + 50, y1, (time)*timeMagnifire + 50, y2);
+            char output[50];
+            sprintf(output, "%d", time);
+            outtextxy((time)*timeMagnifire + 50, y2 + 10, output);
+            timeprevious = (time)*timeMagnifire + 50;
         }
 
         // int count2 = 0;
@@ -649,7 +679,7 @@ void RR(int total, int *P, int *AT, int *BT, int *FT, int quantum)
         //     ij = 0;
         // }
 
-        printf("ij %d", ij);
+        // printf("ij %d", ij);
         if (ij >= total || tempO[ij] == -1)
         {
             ij = 0;
@@ -698,15 +728,15 @@ void RR(int total, int *P, int *AT, int *BT, int *FT, int quantum)
             FT[tempP] = time;
         }
 
-        for (int i = 0; i < total; i++)
-        {
-            printf("%d\n", tempO[i]);
-        }
+        // for (int i = 0; i < total; i++)
+        // {
+        //     printf("%d\n", tempO[i]);
+        // }
 
-        for (int i = 0; i < total; i++)
-        {
-            printf("%12d | %12d | %12d | %12d \n", P[i], AT[i], BTtemp[i], FT[i]);
-        }
+        // for (int i = 0; i < total; i++)
+        // {
+        //     printf("%12d | %12d | %12d | %12d \n", P[i], AT[i], BTtemp[i], FT[i]);
+        // }
 
         line((time)*timeMagnifire + 50, y1, (time)*timeMagnifire + 50, y2);
         char output[50];
